@@ -1,6 +1,4 @@
 SteamTweet::Application.routes.draw do
-  resources :games
-
   resources :users, :only => [:index, :destroy] do
     collection do
       get :status_update

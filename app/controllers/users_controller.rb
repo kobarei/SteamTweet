@@ -1,34 +1,36 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
   def index
     if current_user && current_user.steam.present?
       @games = current_user.games
-      appid = nil
-      state(DALLI.get(current_user.steam.uid), appid)
+      steam = DALLI.get(current_user.steam.uid)
+      state(steam[:status], steam[:appid])
     end
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
+    if current_user.steam
+      if current_user.games
+        current_user.games.each { |game| game.destroy }
+      end
+      current_user.steam.destroy
+    end
+    current_user.destroy
+    session[:user_id] = nil
     respond_to do |format|
-      format.html { redirect_to users_url }
+      format.html { redirect_to :root }
       format.json { head :no_content }
     end
   end
 
   def status_update
-    begin
-      steam_user = JSON.parse(open("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=#{STEAM_API_KEY}&steamids=#{current_user.steam.uid}").read)
-      DALLI.set(current_user.steam.uid, steam_user['response']['players'].first['personastate'])
-      appid = steam_user['response']['players'].first['gameid']
-    rescue
-    end
-    state(DALLI.get(current_user.steam.uid), appid)
+    player_update(current_user)
+    steam = DALLI.get(current_user.steam.uid)
+    state(steam[:status], steam[:appid])
   end
 
   def games_update
@@ -56,11 +58,6 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:provider, :uid, :name, :steam)

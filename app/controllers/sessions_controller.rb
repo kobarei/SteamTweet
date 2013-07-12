@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
         steam.name = auth.info.name
         steam.image = auth.extra.raw_info.avatarfull
         steam.save
-        DALLI.set(steam.uid, auth.extra.raw_info.profilestate)
+        DALLI.set(steam.uid, {:status => auth.extra.raw_info.profilestate, :appid => nil})
 
         begin
           game_info = JSON.parse(open("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=#{STEAM_API_KEY}&steamid=#{current_user.steam.uid}&include_appinfo=1").read)
