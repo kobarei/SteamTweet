@@ -1,5 +1,13 @@
-Status: <%= @status %>
-<% if @now_playing %>
-  Now Playing: <%= @now_playing.name %>
-<% end %>
-<%= link_to 'UpdateStatus', { :action => :status_update }, :class => 'btn btn-primary', :remote => true, :method => :get %>
+<table>
+  <tr>
+    <td>
+      <h3>Status: <%= @status %></h3>
+      <% if @now_playing %>
+        <h3>Now Playing: <%= @now_playing.name %></h3>
+      <% end %>
+    </td>
+    <td>
+      <%= link_to 'UpdateStatus', { :action => :status_update }, :class => 'btn btn-primary', :remote => true, :method => :get %>
+    </td>
+  </tr>
+</table>
