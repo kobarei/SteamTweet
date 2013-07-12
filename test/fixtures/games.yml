@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 
+  appid: MyString
+  name: MyString
+  playtime_2weeks: 1
+  playtime_forever: 1
+  logo: MyString
+
+two:
+  user_id: 
+  appid: MyString
+  name: MyString
+  playtime_2weeks: 1
+  playtime_forever: 1
+  logo: MyString

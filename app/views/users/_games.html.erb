@@ -1,0 +1,11 @@
+<% if @games.present? %>
+  <% @games.each do |game| %>
+    <% if game.logo.present? %>
+      <%= image_tag "http://media.steampowered.com/steamcommunity/public/images/apps/#{game.appid}/#{game.logo}.jpg" %>
+    <% end %>
+  <% end %>
+<% else %>
+  ゲームはありません。
+<% end %>
+<%= link_to 'UpdateGames', { :action => :games_update }, 
+          :class => 'btn btn-primary', :remote => true, :method => :get %>

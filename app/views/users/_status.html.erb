@@ -1,0 +1,5 @@
+Status: <%= @status %>
+<% if @now_playing %>
+  Now Playing: <%= @now_playing.name %>
+<% end %>
+<%= link_to 'UpdateStatus', { :action => :status_update }, :class => 'btn btn-primary', :remote => true, :method => :get %>

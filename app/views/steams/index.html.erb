@@ -1,0 +1,35 @@
+<h1>Listing steams</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Provider</th>
+      <th>Uid</th>
+      <th>Name</th>
+      <th>Image</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @steams.each do |steam| %>
+      <tr>
+        <td><%= steam.user %></td>
+        <td><%= steam.provider %></td>
+        <td><%= steam.uid %></td>
+        <td><%= steam.name %></td>
+        <td><%= steam.image %></td>
+        <td><%= link_to 'Show', steam %></td>
+        <td><%= link_to 'Edit', edit_steam_path(steam) %></td>
+        <td><%= link_to 'Destroy', steam, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Steam', new_steam_path %>

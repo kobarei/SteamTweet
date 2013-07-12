@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @game.user %>
+</p>
+
+<p>
+  <strong>Appid:</strong>
+  <%= @game.appid %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @game.name %>
+</p>
+
+<p>
+  <strong>Playtime 2weeks:</strong>
+  <%= @game.playtime_2weeks %>
+</p>
+
+<p>
+  <strong>Playtime forever:</strong>
+  <%= @game.playtime_forever %>
+</p>
+
+<p>
+  <strong>Logo:</strong>
+  <%= @game.logo %>
+</p>
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>

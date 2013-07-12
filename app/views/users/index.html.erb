@@ -1,0 +1,28 @@
+<h1>Steam</h1>
+
+<% if current_user %>
+  Welcome <%= current_user.name %>!
+  <%= image_tag current_user.twitter_image %>
+  <div>
+    <% if current_user.steam %>
+      <%= image_tag current_user.steam.image %>
+      <%= link_to '試す', { :controller => :tweet, :action => :update }, :class => 'btn' %>
+      <div>
+        <div class='status'>
+          <%= render :partial => 'status' %>
+        </div>
+        持ってるゲーム: <br>
+        <div class='games'>
+          <%= render :partial => 'games' %>
+        </div>
+      </div>
+    <% else %>
+      <%= link_to "Sign in with Steam", "/auth/steam", :class => 'btn btn-success' %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to "Sign Out", "/signout", :class => 'btn btn-danger' %>
+  </div>
+<% else %>
+  <%= link_to "Sign in with Twitter", "/auth/twitter", :class => 'btn btn-primary' %>
+<% end %>
