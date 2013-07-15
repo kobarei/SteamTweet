@@ -53,3 +53,4 @@ gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 
 gem 'dalli'
+gem 'rb-readline', '~> 0.4.2'

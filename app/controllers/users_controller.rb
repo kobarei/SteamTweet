@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => :add_steam
 
   # GET /users
   # GET /users.json
@@ -25,6 +26,40 @@ class UsersController < ApplicationController
       format.html { redirect_to :root }
       format.json { head :no_content }
     end
+  end
+
+  def add_steam
+    auth = request.env['omniauth.auth']
+    if current_user.steam.nil?
+      steam = Steam.new
+      steam.user_id = current_user.id
+      steam.provider = auth.provider
+      steam.uid = auth.uid
+      steam.name = auth.info.name
+      steam.image = auth.extra.raw_info.avatarfull
+      steam.save
+      DALLI.set(steam.uid, {:status => auth.extra.raw_info.profilestate, :appid => nil})
+
+      begin
+        game_info = JSON.parse(open("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=#{STEAM_API_KEY}&steamid=#{current_user.steam.uid}&include_appinfo=1").read)
+        game_info['response']['games'].each do |info|
+          game = Game.new
+          game.user_id = current_user.id
+          game.appid = info['appid']
+          game.name = info['name']
+          game.logo = info['img_logo_url']
+          if info['playtime_2weeks']
+            game.playtime_2week = info['playtime_2week']
+          end
+          if info['playtime_forever']
+            game.playtime_forever = info['playtime_forever']
+          end
+          game.save
+        end
+      rescue
+      end
+    end
+    redirect_to root_url, :notice => 'Steam Integrated!'
   end
 
   def status_update

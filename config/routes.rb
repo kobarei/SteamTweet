@@ -7,7 +7,7 @@ SteamTweet::Application.routes.draw do
   end
 
   get '/auth/twitter/callback' => 'sessions#create'
-  post '/auth/steam/callback' => 'sessions#create'
+  post '/auth/steam/callback' => 'users#add_steam'
   get '/signout' => 'sessions#destroy'
   get '/tweet' => 'tweet#update'
   # The priority is based upon order of creation: first created -> highest priority.

@@ -16,7 +16,7 @@ class TweetController < ApplicationController
       )
       begin
         if @now_playing
-          msg = "I'm now playing #{@now_playing.name} #steam"
+          msg = "I'm now playing #{@now_playing.name} #NowGamingSteam"
           client.update(msg)
         else
           msg = "I'm now #{@status} #steam"
