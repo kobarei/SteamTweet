@@ -6,8 +6,9 @@ class UsersController < ApplicationController
   def index
     if current_user && current_user.steam.present?
       @games = current_user.games
-      steam = DALLI.get(current_user.steam.uid)
-      state(steam[:status], steam[:appid])
+      if steam = DALLI.get(current_user.steam.uid)
+        state(steam[:status], steam[:appid])
+      end
     end
   end
 

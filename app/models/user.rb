@@ -10,6 +10,6 @@ class User < ActiveRecord::Base
       user.secret = auth["credentials"]["secret"]
       user.name = auth["info"]["nickname"]
       user.twitter_image = auth["info"]["image"]
-    end  
+    end
   end
 end
