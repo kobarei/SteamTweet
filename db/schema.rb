@@ -41,8 +41,6 @@ ActiveRecord::Schema.define(version: 20130712004912) do
   create_table "users", force: true do |t|
     t.string   "provider"
     t.string   "uid"
-    t.string   "token"
-    t.string   "secret"
     t.string   "name"
     t.string   "twitter_image"
     t.datetime "created_at"
