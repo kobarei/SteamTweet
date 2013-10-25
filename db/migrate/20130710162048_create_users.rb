@@ -3,8 +3,6 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :provider
       t.string :uid
-      t.string :token
-      t.string :secret
       t.string :name
       t.string :twitter_image
 
