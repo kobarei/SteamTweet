@@ -49,7 +49,6 @@ gem 'omniauth-twitter'
 gem 'twitter'
 
 gem 'therubyracer'
-gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 
 gem 'dalli'

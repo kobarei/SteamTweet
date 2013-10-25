@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   helper_method :signed_in?
   helper_method :current_user
 
-  private
   def current_user  
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
@@ -30,14 +29,13 @@ class ApplicationController < ActionController::Base
     @now_playing = current_user.games.find_by_appid(appid)
   end
 
-  def player_update(current_user)
-    begin
-      player_summary = JSON.parse(open("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=#{STEAM_API_KEY}&steamids=#{current_user.steam.uid}").read)
-      DALLI.set(current_user.steam.uid, {
-        :status => player_summary['response']['players'].first['personastate'], 
-        :appid => player_summary['response']['players'].first['gameid']
-      })
-    rescue
-    end
+  def setup_twitter_client
+    client = Twitter::Client.new(
+      :consumer_key => TWITTER_CONSUMER_KEY,
+      :consumer_secret => TWITTER_CONSUMER_SECRET,
+      :oauth_token => session[:token],
+      :oauth_token_secret => session[:secret]
+    )
+    return client
   end
 end

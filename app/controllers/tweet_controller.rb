@@ -1,19 +1,11 @@
 class TweetController < ApplicationController
-  def input
-  end
-
   def update
     if current_user
-      player_update(current_user)
+      current_user.update_steam_status
       steam = DALLI.get(current_user.steam.uid)
       state(steam[:status], steam[:appid])
 
-      client = Twitter::Client.new(
-        :consumer_key => TWITTER_CONSUMER_KEY,
-        :consumer_secret => TWITTER_CONSUMER_SECRET,
-        :oauth_token => current_user.token,
-        :oauth_token_secret => current_user.secret
-      )
+      client = setup_twitter_client
       begin
         if @now_playing
           msg = "I'm now playing #{@now_playing.name} #NowGamingSteam"
